@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <active>true</active>
+        <api_name>x_snc_root_library.UtilsLibrary</api_name>
+        <client_callable>false</client_callable>
+        <description>Useful general utilities to support all Client- and Server-side needs!</description>
+        <name>UtilsLibrary</name>
+        <script><![CDATA[var UtilsLibrary = Class.create();
+UtilsLibrary.prototype = {
+	initialize: function() {
+	},
+	
+	parseAndWriteLog : function(logJSON) {
+		this[logJSON.type](logJSON.message, logJSON.valueList, logJSON.location);
+		
+		// alternate call:
+		// this.log(logJSON.message, logJSON.valueList, logJSON.location, logJSON.type);
+	},
+	
+	info : function(message, valueList, location) {
+		this.log(message, valueList, location, 'info');
+	},
+	error : function(message, valueList, location) {
+		this.log(message, valueList, location, 'error');
+	},
+	warn : function(message, valueList, location) {
+		this.log(message, valueList, location, 'warn');
+	},
+	log : function(message, valueList, location, type) {
+		var debug = gs.getProperty('x_snc_root_library.utilslibrary.debug', 'false') == 'true';
+		if (debug || type == 'error') {
+			if (!message || !location) {
+				throw 'ERROR: no message or location given - UtilsLibrary.log';
+			}
+			if (!type) {
+				type = 'info';
+			}
+			if (valueList == null) {
+				valueList = [];
+			}
+
+			message = '---> [' + new GlideDateTime().getNumericValue() + '-' + location + ']\n'
+				+ message;
+
+			gs[type](message, valueList);
+		}
+	},	
+	
+	type: 'UtilsLibrary'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2018-05-09 23:15:37</sys_created_on>
+        <sys_id>b114546cf0c213007f443428d5485e49</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>UtilsLibrary</sys_name>
+        <sys_package display_value="Root Library" source="x_snc_root_library">3863506cf0c213007f443428d5485eaa</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Root Library">3863506cf0c213007f443428d5485eaa</sys_scope>
+        <sys_update_name>sys_script_include_b114546cf0c213007f443428d5485e49</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2018-05-09 23:16:02</sys_updated_on>
+    </sys_script_include>
+</record_update>
